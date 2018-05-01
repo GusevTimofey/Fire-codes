@@ -11,6 +11,9 @@ public class Main {
         Polynom mul = G_polynom.mul(F_polynom);
         System.out.println(mul);
 
+        Polynom sub = mul.sub(F_polynom);
+        System.out.println(sub);
+
         Polynom div = mul.div(G_polynom);
         System.out.println(div);
 

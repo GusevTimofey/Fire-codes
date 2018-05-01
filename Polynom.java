@@ -33,7 +33,6 @@ public class Polynom {
             else
                 map.put(Integer.parseInt(String.valueOf(string.charAt(i))), 1);
         }
-
         return map;
     }
 
@@ -45,12 +44,19 @@ public class Polynom {
     public Polynom sub(Polynom polynom) {
 
         TreeMap<Integer, Integer> otherM = polynom.getPolynomMap();
-        TreeMap<Integer, Integer> resultMap = new TreeMap<>(Collections.reverseOrder());
-        for (Map.Entry<Integer, Integer> v : polynomMap.entrySet()) {
-            for (Map.Entry<Integer, Integer> b : otherM.entrySet()) {
+        TreeMap<Integer, Integer> resultMap = polynomMap;
 
-            }
+        for (Map.Entry<Integer, Integer> b : otherM.entrySet()) {
+            if (polynomMap.containsKey(b.getKey())) {
+                Integer k = polynomMap.get(b.getKey()) ^ b.getValue();
+                if (k != 0)
+                    resultMap.put(b.getKey(), k);
+                else
+                    resultMap.remove(b.getKey());
+            } else
+                resultMap.put(b.getKey(), 1);
         }
+
         return new Polynom(resultMap);
     }
 
@@ -69,6 +75,7 @@ public class Polynom {
                     resultMap.put(resultKey, 1);
             }
         }
+
         return new Polynom(resultMap);
     }
 
