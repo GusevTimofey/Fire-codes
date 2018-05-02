@@ -23,17 +23,22 @@ public class Polynom {
     private TreeMap<Integer, Integer> regexCoeff(String string) {
 
         TreeMap<Integer, Integer> map = new TreeMap<>(Collections.reverseOrder());
-        Pattern pattern = Pattern.compile("[x +]");
+        Pattern pattern = Pattern.compile("[x+]");
         Matcher matcher = pattern.matcher(string);
         string = matcher.replaceAll("");
 
         for (int i = 0; i < string.length(); i++) {
             if (string.charAt(i) == '^') {
-                map.put(Integer.parseInt(String.valueOf(string.charAt(i + 1))), 1);
-                i++;
-            } else
-                map.put(0, 1);
+                StringBuilder s = new StringBuilder();
+                while (i + 2 <= string.length() && string.charAt(i + 1) != ' ') {
+                    s.append(string.charAt(i + 1));
+                    i++;
+                }
 
+                map.put(Integer.parseInt(s.toString()), 1);
+            }
+            if (string.charAt(i) == ' ' && string.charAt(i + 1) != '^' && i + 2 == string.length())
+                map.put(0, 1);
         }
         return map;
     }
@@ -158,7 +163,7 @@ public class Polynom {
         StringBuilder string = new StringBuilder();
         for (Map.Entry<Integer, Integer> v : polynomMap.entrySet()) {
             if (v.getKey() == 0)
-                string.append("1 ");
+                string.append("1");
             else
                 string.append("x^").append(v.getKey()).append(" + ");
         }

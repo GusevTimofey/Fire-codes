@@ -1,8 +1,8 @@
 public class Main {
     public static void main(String[] args) {
 
-        Polynom g_x = new Polynom("x^3");
-        Polynom f_x = new Polynom("x^4 + x^2 + x^1 + 1");
+        Polynom g_x = new Polynom("x^7 + 1");
+        Polynom f_x = new Polynom("x^4 + x^1 + 1");
         Polynom h_x = g_x.mul(f_x);
         Polynom k_x = new Polynom("x^7 + 1");
         Polynom l_x = h_x.div(k_x).takeModPart();
