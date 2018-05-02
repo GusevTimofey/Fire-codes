@@ -23,20 +23,22 @@ public class Polynom {
     private TreeMap<Integer, Integer> regexCoeff(String string) {
 
         TreeMap<Integer, Integer> map = new TreeMap<>(Collections.reverseOrder());
-        Pattern pattern = Pattern.compile("\\D+");
+        Pattern pattern = Pattern.compile("[x +]");
         Matcher matcher = pattern.matcher(string);
         string = matcher.replaceAll("");
 
         for (int i = 0; i < string.length(); i++) {
-            if (map.containsKey(Integer.parseInt(String.valueOf(string.charAt(i)))))
+            if (string.charAt(i) == '^') {
+                map.put(Integer.parseInt(String.valueOf(string.charAt(i + 1))), 1);
+                i++;
+            } else
                 map.put(0, 1);
-            else
-                map.put(Integer.parseInt(String.valueOf(string.charAt(i))), 1);
+
         }
         return map;
     }
 
-    public Polynom setPolynomMapQuotient() {
+    public Polynom takeModPart() {
         polynomMap = polynomMapQuotient;
         return new Polynom(polynomMap);
     }
@@ -110,14 +112,18 @@ public class Polynom {
                 result.remove(0);
             if (count >= thisList.size() - 1)
                 break;
-            while (result.size() < otherList.size()) {
+            while (result.size() < otherList.size() && count < thisList.size() - 1) {
                 if (result.size() <= otherList.size() - 2) {
                     returnList.add(0);
                 }
                 count++;
                 result.add(thisList.get(count));
             }
-            if (count > thisList.size() - 1)
+            if (result.get(0) == 0) {
+                returnList.add(0);
+                continue;
+            }
+            if (count > thisList.size() - 1 || result.size() < otherList.size())
                 break;
             for (Integer anOtherList : otherList) {
                 result.add(result.get(j) ^ anOtherList);
@@ -129,6 +135,9 @@ public class Polynom {
         TreeMap<Integer, Integer> quotientMap = new TreeMap<>(Collections.reverseOrder());
         TreeMap<Integer, Integer> resultMap = new TreeMap<>(Collections.reverseOrder());
 
+        Collections.reverse(result);
+        Collections.reverse(returnList);
+
         if (result.size() > 0) {
             for (int i = 0; i < result.size(); i++) {
                 if (result.get(i) != 0)
@@ -136,7 +145,7 @@ public class Polynom {
             }
         }
 
-        for (int i = 0; i < returnList.size(); i++) {
+        for (int i = returnList.size() - 1; i >= 0; i--) {
             if (returnList.get(i) != 0)
                 resultMap.put(i, 1);
         }
@@ -165,4 +174,19 @@ public class Polynom {
         return polynomMap;
     }
 
+    public boolean equals(Polynom polynom) {
+
+        TreeMap<Integer, Integer> thisM = polynomMap;
+        TreeMap<Integer, Integer> otherM = polynom.getPolynomMap();
+
+        if (thisM.size() != otherM.size())
+            return false;
+
+        for (Map.Entry<Integer, Integer> v : thisM.entrySet()) {
+            if (!thisM.containsKey(v.getKey()))
+                return false;
+        }
+
+        return true;
+    }
 }

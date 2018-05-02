@@ -1,21 +1,25 @@
 public class Main {
     public static void main(String[] args) {
-        String g_x = "x^7 + 1";
-        String f_x = "x^4 + x^1 + 1";
-        Polynom G_polynom = new Polynom(g_x);
-        Polynom F_polynom = new Polynom(f_x);
 
-        System.out.println(G_polynom);
-        System.out.println(F_polynom);
+        Polynom g_x = new Polynom("x^3");
+        Polynom f_x = new Polynom("x^4 + x^2 + x^1 + 1");
+        Polynom h_x = g_x.mul(f_x);
+        Polynom k_x = new Polynom("x^7 + 1");
+        Polynom l_x = h_x.div(k_x).takeModPart();
+        System.out.println("g_x: " + g_x);
+        System.out.println("f_x: " + f_x);
+        System.out.println("h_x = g_x * f_x: " + h_x);
+        System.out.println("k_x: " + k_x);
+        System.out.println("h_x mod k_x: " + l_x);
+        System.out.println();
 
-        Polynom mul = G_polynom.mul(F_polynom);
-        System.out.println(mul);
 
-        Polynom sub = mul.sub(F_polynom);
-        System.out.println(sub);
-
-        Polynom div = mul.div(G_polynom);
-        System.out.println(div);
+        Polynom q_x = new Polynom("x^8 + x^4 + x^2 + 1");
+        Polynom w_x = new Polynom("x^7 + 1");
+        Polynom e_x = q_x.div(w_x);
+        Polynom e1_x = q_x.div(w_x).takeModPart();
+        System.out.println("q_x / w_x: " +e_x);
+        System.out.println("q_x mod w_x: " + e1_x);
 
     }
 }
