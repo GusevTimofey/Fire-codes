@@ -2,7 +2,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Polynom {
+class Polynom {
 
     private TreeMap<Integer, Integer> polynomMap;
     private TreeMap<Integer, Integer> polynomMapQuotient;
@@ -188,10 +188,12 @@ public class Polynom {
             return false;
 
         for (Map.Entry<Integer, Integer> v : thisM.entrySet()) {
-            if (!thisM.containsKey(v.getKey()))
+            if (!otherM.containsKey(v.getKey()))
                 return false;
         }
 
         return true;
     }
 }
+
+
